@@ -2,7 +2,7 @@ import { useState } from "react";
 import CreateRating from "./CreateRating";
 import RatingCard from "./RatingCard";
 
-export default function RatingSection({ divRef, rating, restaurantId }: any) {
+export default function RatingSection({ divRef, rating, restaurant }: any) {
   const [isOpen, setIsOpen] = useState<boolean>(false);
   return (
     <div className="mx-5 mb-96 text-darkGray" ref={divRef}>
@@ -16,27 +16,24 @@ export default function RatingSection({ divRef, rating, restaurantId }: any) {
           return <RatingCard key={i} item={item} />;
         })}
       </div>
-      {isOpen ? (
+      {isOpen && (
         <>
           <CreateRating
             cancel={() => {
               setIsOpen(false);
             }}
-            restaurantId={restaurantId}
+            restaurant={restaurant}
           />
         </>
-      ) : (
-        <>
-          <p
-            onClick={() => {
-              setIsOpen(true);
-            }}
-            className={`text-darkRed animate-fade cursor-pointer text-center border-t-2 mt-10 pt-2`}
-          >
-            Write a review
-          </p>
-        </>
       )}
+      <p
+        onClick={() => {
+          setIsOpen(true);
+        }}
+        className={`text-darkRed cursor-pointer text-center border-t-2 mt-10 pt-2`}
+      >
+        Write a review
+      </p>
     </div>
   );
 }

@@ -16,13 +16,17 @@ export const getServerSideProps = async (context: any) => {
       routeName,
     },
     include: {
-      rating: {},
+      rating: {
+        include: {
+          user: true,
+        },
+      },
       category: {
         select: {
           categoryName: true,
         },
       },
-      information: {},
+      information: true,
       featureImage: {
         select: {
           URL: true,
@@ -74,7 +78,7 @@ export default function Restaurant({ restaurant }: any) {
         </>
       )}
       <hr className="border-4 my-4" />
-      {rating && <RatingSection divRef={ratingDivRef} rating={rating} restaurantId={id} />}
+      {rating && <RatingSection divRef={ratingDivRef} rating={rating} restaurant={restaurant} />}
       <Navbar />
     </>
   );
