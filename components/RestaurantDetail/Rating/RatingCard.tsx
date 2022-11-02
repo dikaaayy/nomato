@@ -4,14 +4,14 @@ export default function RatingCard({ item }: any) {
   const { rate, comment, user } = item;
   return (
     <div className="border-[1px] p-3 rounded-lg">
-      <div className="flex items-center space-x-7">
+      <div className="flex items-center space-x-7 mb-2">
         <div className="flex items-center gap-x-2 justify-center min-w-max">
           <div className="w-10 h-10 relative rounded-full overflow-hidden self-start">
             <Image src={user?.image} layout="fill" alt={user.name} objectFit="cover" />
           </div>
           <div className="flex flex-col -space-y-1">
             <p className="font-semibold text-darkGray">{user.name}</p>
-            <p>0 follower</p>
+            <p className="text-darkGray text-opacity-70">0 follower</p>
           </div>
         </div>
         <div className="bg-green px-3 py-2 rounded flex font-semibold text-white items-center space-x-1">

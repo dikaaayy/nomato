@@ -46,7 +46,6 @@ model Rating {
   id           Int         @id @default(autoincrement())
   rate         Int
   comment      String?
-  users         String?
   restaurantId Int?
   restaurant   Restaurant? @relation(fields: [restaurantId], references: [id], onDelete: Cascade)
   userId String?

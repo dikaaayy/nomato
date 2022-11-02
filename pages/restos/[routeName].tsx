@@ -1,4 +1,4 @@
-import { useRef } from "react";
+import { createContext, useRef, useState } from "react";
 import Header from "../../components/Head/Header";
 import Navbar from "../../components/Navbar/Navbar";
 import DetailedInformation from "../../components/RestaurantDetail/DetailedInformation";
@@ -42,8 +42,11 @@ export const getServerSideProps = async (context: any) => {
   return { props: { restaurant: JSON.parse(JSON.stringify(restoran)) } };
 };
 
+export const ReviewContext = createContext(null as any);
+
 export default function Restaurant({ restaurant }: any) {
-  const { name, information, rating, id } = restaurant;
+  const { name, information, rating } = restaurant;
+  const [reviews, setReviews] = useState<any[]>(rating);
   const ratingDivRef = useRef<HTMLDivElement>(null);
   return (
     <>
@@ -78,7 +81,13 @@ export default function Restaurant({ restaurant }: any) {
         </>
       )}
       <hr className="border-4 my-4" />
-      {rating && <RatingSection divRef={ratingDivRef} rating={rating} restaurant={restaurant} />}
+      {rating && (
+        <>
+          <ReviewContext.Provider value={{ reviews, setReviews }}>
+            <RatingSection divRef={ratingDivRef} restaurant={restaurant} />
+          </ReviewContext.Provider>
+        </>
+      )}
       <Navbar />
     </>
   );

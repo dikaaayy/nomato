@@ -1,9 +1,11 @@
-import { useState } from "react";
+import { useContext, useState } from "react";
+import { ReviewContext } from "../../../pages/restos/[routeName]";
 import CreateRating from "./CreateRating";
 import RatingCard from "./RatingCard";
 
-export default function RatingSection({ divRef, rating, restaurant }: any) {
+export default function RatingSection({ divRef, restaurant }: any) {
   const [isOpen, setIsOpen] = useState<boolean>(false);
+  const { reviews } = useContext(ReviewContext);
   return (
     <div className="mx-5 mb-96 text-darkGray" ref={divRef}>
       <div className="flex justify-between items-center">
@@ -12,7 +14,7 @@ export default function RatingSection({ divRef, rating, restaurant }: any) {
       </div>
       <p className="text-sm my-3">RECENT REVIEWS</p>
       <div className="flex space-x-4 overflow-x-scroll">
-        {rating.map((item: any, i: number) => {
+        {reviews.map((item: any, i: number) => {
           return <RatingCard key={i} item={item} />;
         })}
       </div>
