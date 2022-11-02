@@ -16,6 +16,7 @@ const Handler = (req: NextApiRequest, res: NextApiResponse) =>
       // ...add more providers here
     ],
     adapter: PrismaAdapter(prisma),
+    secret: process.env.NEXT_PUBLIC_SECRET,
   });
 
 export default Handler;
