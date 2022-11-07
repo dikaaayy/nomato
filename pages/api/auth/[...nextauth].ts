@@ -110,8 +110,7 @@ function html(params: { url: string; host: string; theme: any }) {
         <tr>
           <td align="center" style="border-radius: 5px;" bgcolor="#952525"><a href="${url}"
               target="_blank"
-              style="font-size: 18px; font-family: Helvetica, Arial, sans-serif; color: white; text-decoration: none; border-radius: 5px; padding: 10px 20px; display: inline-block; font-weight: bold;">Sign
-              in</a></td>
+              style="font-size: 18px; font-family: Helvetica, Arial, sans-serif; color: white; text-decoration: none; border-radius: 5px; padding: 10px 20px; display: inline-block; font-weight: bold;">Masuk</a></td>
         </tr>
       </table>
     </td>
@@ -119,7 +118,7 @@ function html(params: { url: string; host: string; theme: any }) {
   <tr>
     <td align="center"
       style="padding: 0px 0px 10px 0px; font-size: 16px; line-height: 22px; font-family: Helvetica, Arial, sans-serif;">
-      If you did not request this email you can safely ignore it.
+      Jika ini bukan kamu, segera periksa keamanan emailmu!
     </td>
   </tr>
 </table>
