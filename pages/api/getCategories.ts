@@ -10,7 +10,24 @@ function getMultipleRandom(arr: any, num: number) {
 export default async function handler(req: any, res: NextApiResponse) {
   const { category } = req.query;
   try {
-    const data = await prisma.restaurant.findMany({
+    // const data = await prisma.restaurant.findMany({
+    //   where: {
+    //     category: {
+    //       some: {
+    //         categoryName: category,
+    //       },
+    //     },
+    //   },
+    //   include: {
+    //     category: true,
+    //     featureImage: {
+    //       select: { URL: true },
+    //     },
+    //     rating: true,
+    //   },
+    // });
+
+    const restoran = await prisma.restaurant.findMany({
       where: {
         category: {
           some: {
@@ -18,16 +35,39 @@ export default async function handler(req: any, res: NextApiResponse) {
           },
         },
       },
-      include: {
-        category: true,
+      select: {
+        name: true,
+        locationBroad: true,
+        priceRange: true,
+        openTime: true,
+        closeTime: true,
         featureImage: {
-          select: { URL: true },
+          select: {
+            URL: true,
+          },
         },
-        rating: true,
+        routeName: true,
+        rating: {
+          select: {
+            rate: true,
+          },
+        },
+        category: {
+          select: {
+            categoryName: true,
+          },
+        },
+        userBookmark: {
+          select: {
+            email: true,
+          },
+        },
       },
+      // take: 10,
+      // skip,
     });
 
-    res.send(getMultipleRandom(data, 8));
+    res.send(getMultipleRandom(restoran, 8));
     res.status(200);
     res.end();
   } catch (e) {

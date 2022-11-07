@@ -10,7 +10,7 @@ import { GetServerSideProps } from "next";
 
 export const getServerSideProps: GetServerSideProps = async () => {
   const count = await prisma.restaurant.count();
-  const skip = Math.floor(Math.random() * count);
+  // const skip = Math.floor(Math.random() * count);
   const restoran = await prisma.restaurant.findMany({
     select: {
       name: true,
@@ -34,9 +34,14 @@ export const getServerSideProps: GetServerSideProps = async () => {
           categoryName: true,
         },
       },
+      userBookmark: {
+        select: {
+          email: true,
+        },
+      },
     },
     take: 10,
-    skip,
+    // skip,
   });
   return { props: { restoran: JSON.parse(JSON.stringify(restoran)) } };
 };
