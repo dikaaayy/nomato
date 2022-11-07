@@ -100,7 +100,7 @@ model User {
   name          String?
   email         String?   @unique
   emailVerified DateTime?
-  image         String?
+  image         String @default("https://avatars.dicebear.com/api/open-peeps/1.svg")
   username String? @unique
   accounts      Account[]
   sessions      Session[]
