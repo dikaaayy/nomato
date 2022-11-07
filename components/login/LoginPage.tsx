@@ -17,7 +17,7 @@ export default function LoginPage({ closeLogin }: any) {
             Logout
           </button>
         ) : (
-          <button className="rounded-full border-[1px] font-medium transition hover:bg-[#bbae86] dark:hover:bg-[#8a8a8a] w-[75%] h-[8%]" onClick={() => signIn()}>
+          <button className="rounded-full border-[1px] font-medium transition hover:bg-[#bbae86] dark:hover:bg-[#8a8a8a] w-[75%] h-[8%]" onClick={() => signIn("email")}>
             Login with google
           </button>
         )}
