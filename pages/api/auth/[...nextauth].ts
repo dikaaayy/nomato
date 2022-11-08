@@ -31,7 +31,7 @@ export const authOptions: NextAuthOptions = {
         const result = await transport.sendMail({
           to: identifier,
           from: provider.from,
-          subject: `Hi, we recieved for your registration! Please verify yourself to continue Single Sign On`,
+          subject: `Hi, we recieved for your request! Please verify yourself to continue single sign on`,
           text: text({ url, host }),
           html: html({ url, host, theme }),
         });
@@ -50,17 +50,17 @@ export const authOptions: NextAuthOptions = {
 function html(params: { url: string; host: string; theme: any }) {
   const { url, host, theme } = params;
 
-  const escapedHost = host.replace(/\./g, "&#8203;.");
+  // const escapedHost = host.replace(/\./g, "&#8203;.");
 
-  const brandColor = theme.brandColor || "#346df1";
-  const color = {
-    background: "#f9f9f9",
-    text: "#444",
-    mainBackground: "#fff",
-    buttonBackground: brandColor,
-    buttonBorder: brandColor,
-    buttonText: theme.buttonText || "#fff",
-  };
+  // const brandColor = theme.brandColor || "#346df1";
+  // const color = {
+  //   background: "#f9f9f9",
+  //   text: "#444",
+  //   mainBackground: "#fff",
+  //   buttonBackground: brandColor,
+  //   buttonBorder: brandColor,
+  //   buttonText: theme.buttonText || "#fff",
+  // };
 
   //   return `
   // <body style="background: ${color.background};">

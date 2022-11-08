@@ -6,15 +6,12 @@ export default function User({ user, route }: any) {
   // console.log(user);
   if (user) {
     return (
-      <div
-        className="flex flex-col items-center w-[20%]"
-        onClick={() => {
-          signOut();
-        }}
-      >
-        <Image src={user?.image!} width="25" height={"25"} alt="logo putih" objectFit="cover" className="rounded-full" />
-        <p className={`${route === "/login" && "text-darkRed"}`}>Profile</p>
-      </div>
+      <Link href="/account">
+        <a className="flex flex-col items-center w-[20%]">
+          <Image src={user?.image!} width="25" height={"25"} alt="logo putih" objectFit="cover" className="rounded-full" />
+          <p className={`${route === "/account" && "text-darkRed"}`}>Profile</p>
+        </a>
+      </Link>
     );
   }
   return (
