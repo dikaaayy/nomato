@@ -1,22 +1,20 @@
-import { signOut } from "next-auth/react";
 import Image from "next/image";
 import Link from "next/link";
 
 export default function User({ user, route }: any) {
-  // console.log(user);
   if (user) {
     return (
       <Link href="/account">
         <a className="flex flex-col items-center w-[20%]">
           <Image src={user?.image!} width="25" height={"25"} alt="logo putih" objectFit="cover" className="rounded-full" />
-          <p className={`${route === "/account" && "text-darkRed"}`}>Profile</p>
+          <p className={`${(route === "/account" || route === "/account/edit") && "text-darkRed font-medium"}`}>Profile</p>
         </a>
       </Link>
     );
   }
   return (
     <Link href={"/login"}>
-      <a className={`flex flex-col items-center w-[20%]  ${route === "/login" && "text-darkRed"}`}>
+      <a className={`flex flex-col items-center w-[20%]  ${route === "/login" && "text-darkRed font-medium"}`}>
         {route === "/login" ? (
           <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" className="w-6 h-6">
             <path
