@@ -1,27 +1,65 @@
-import React, { useEffect, useState } from "react";
+import React, { createContext, useEffect, useState } from "react";
 import CategoryCard from "../CategoryPage/CategoryCard";
+import FilterPage from "./Filter/FilterPage";
+
+export const FilterContext = createContext(null as any);
 
 export default function SearchResult({ query }: any) {
   const [data, setData] = useState<any[]>([]);
   const [isLoading, setIsLoading] = useState<boolean>(true);
+  const [filter, setFilter] = useState<any>({});
+  const [isFilterOpen, setIsFilterOpen] = useState<boolean>(false);
+  const [highestPrice, setHighestPrice] = useState<Number>(0);
+
+  console.log(data);
+
   const fetchData = async () => {
     const res = await (await fetch(`${process.env.NEXT_PUBLIC_API_URL!}/api/getSearch?q=${query}`)).json();
     setData(res);
     setIsLoading(false);
   };
 
-  // console.log(data);
+  useEffect(() => {
+    if (Object.keys(filter).length === 0) return;
+
+    const filtered = data.filter((item: any) => Number(item.priceRange) <= filter.price);
+    setData(filtered);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [filter]);
+
   useEffect(() => {
     if (!query) return;
     fetchData();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [query]);
 
+  useEffect(() => {
+    if (data.length === 0) return;
+    setHighestPrice(
+      Math.max(
+        ...data.map((item) => {
+          return Number(item.priceRange.match(/\d/g).join(""));
+        })
+      )
+    );
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [data]);
+
   if (!isLoading) {
     return (
       <>
         <div className="flex items-center gap-x-2 overflow-x-scroll mb-4">
-          <svg width="28" height="28" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg" className="bg-darkGray bg-opacity-10 rounded-md p-1 shrink-0 cursor-pointer">
+          <svg
+            width="28"
+            height="28"
+            viewBox="0 0 16 16"
+            fill="none"
+            xmlns="http://www.w3.org/2000/svg"
+            className="bg-darkGray bg-opacity-10 rounded-md p-1 shrink-0 cursor-pointer"
+            onClick={() => {
+              setIsFilterOpen(true);
+            }}
+          >
             <path
               opacity="0.4"
               d="M6.72217 8.46387H2.33849C1.78368 8.46387 1.33331 8.90634 1.33331 9.45142C1.33331 9.99577 1.78368 10.439 2.33849 10.439H6.72217C7.27698 10.439 7.72735 9.99577 7.72735 9.45142C7.72735 8.90634 7.27698 8.46387 6.72217 8.46387Z"
@@ -40,7 +78,7 @@ export default function SearchResult({ query }: any) {
           <p className="bg-darkGray bg-opacity-10 rounded-md py-1 px-2 font-medium w-max shrink-0 cursor-pointer text-sm">Outdoor</p>
           <p className="bg-darkGray bg-opacity-10 rounded-md py-1 px-2 font-medium w-max shrink-0 cursor-pointer text-sm">Halal</p>
         </div>
-        <div className="flex flex-col gap-y-3 lg:grid lg:grid-cols-5 lg:gap-2">
+        <div className="flex flex-col gap-y-3 lg:grid lg:grid-cols-5 lg:gap-2 pb-20">
           {data.map((restaurant: any, i: any, row: any) => {
             if (i + 1 === row.length) {
               return <CategoryCard key={i} restaurant={restaurant} isLast={true} />;
@@ -49,6 +87,11 @@ export default function SearchResult({ query }: any) {
             }
           })}
         </div>
+        {isFilterOpen && (
+          <FilterContext.Provider value={{ filter, setFilter, highestPrice, setIsFilterOpen }}>
+            <FilterPage />
+          </FilterContext.Provider>
+        )}
       </>
     );
   } else {

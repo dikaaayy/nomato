@@ -45,10 +45,18 @@ export default function Search() {
       <SearchBar handler={searchSubmitHandler} searchRef={searchRef} />
       {!router.query.q ? (
         <>
-          <p className="font-semibold mb-2">Pencarian terakhir</p>
-          {recentSearch.length !== 0 && <RecentSearchQuery searchRef={searchRef} data={recentSearch} />}
-          <p className="font-semibold mb-2">Terakhir kamu liat</p>
-          {recentSearchRestaurant.length !== 0 && <RecentSearchRestaurant data={recentSearchRestaurant} />}
+          {recentSearch.length !== 0 && (
+            <>
+              <p className="font-semibold mb-2">Pencarian terakhir</p>
+              <RecentSearchQuery searchRef={searchRef} data={recentSearch} />
+            </>
+          )}
+          {recentSearchRestaurant.length !== 0 && (
+            <>
+              <p className="font-semibold mb-2">Terakhir kamu liat</p>
+              <RecentSearchRestaurant data={recentSearchRestaurant} />
+            </>
+          )}
         </>
       ) : (
         <SearchResult query={router.query.q} />

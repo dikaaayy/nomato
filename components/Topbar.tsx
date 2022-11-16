@@ -24,7 +24,7 @@ export default function Topbar() {
             clipRule="evenodd"
           />
         </svg>
-        <p className="text-black font-medium">Yogyakarta</p>
+        <p className="text-black font-medium">Jakarta</p>
       </div>
       {session ? (
         <Image src={session?.user?.image!} width="30" height={"30"} alt="logo putih" objectFit="cover" className="rounded-full" />

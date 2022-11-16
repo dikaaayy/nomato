@@ -59,3 +59,10 @@ export const recentRestaurantHandler = (restaurant: any) => {
     localStorage.setItem("recentSearchRestaurant", JSON.stringify(recent));
   }
 };
+
+export function getMultipleRandom(arr: any[], num: number) {
+  const shuffled = [...arr].sort(() => 0.5 - Math.random());
+  const reduced = shuffled.slice(0, num);
+
+  return reduced;
+}
