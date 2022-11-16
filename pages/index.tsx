@@ -51,12 +51,14 @@ export default function Home({ restoran, user }: any) {
   return (
     <>
       <Header title="Home" />
-      <Topbar />
-      <SearchBar />
-      <RestaurantRow restaurants={restoran} title={"Popular restaurants around you"} />
-      <RestaurantRow search="Coffee" title={"Coffee to brighten up your day"} />
-      <RestaurantRow search="Japanese" title={"Japanese"} />
-      <RestaurantRow search="Italian" title={"Italian"} />
+      <div className="mx-4">
+        <Topbar />
+        <SearchBar />
+        <RestaurantRow restaurants={restoran} title={"Popular restaurants around you"} />
+        <RestaurantRow search="Coffee" title={"Coffee to brighten up your day"} />
+        <RestaurantRow search="Japanese" title={"Japanese"} />
+        <RestaurantRow search="Italian" title={"Italian"} />
+      </div>
       <Navbar user={user} />
     </>
   );

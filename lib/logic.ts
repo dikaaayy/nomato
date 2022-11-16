@@ -45,3 +45,17 @@ export const featureLogic = (feature: String) => {
   }
   return name;
 };
+
+export const recentRestaurantHandler = (restaurant: any) => {
+  const initialList = JSON.parse(localStorage.getItem("recentSearchRestaurant") || "[]");
+  // console.log("initial list >>> ", initialList);
+  if (!initialList.some((item: any) => item.name === restaurant.name)) {
+    const recent = [restaurant, ...initialList];
+    localStorage.setItem("recentSearchRestaurant", JSON.stringify(recent));
+  } else {
+    const filtered = initialList.filter((item: any) => item.name !== restaurant.name);
+    console.log("FILTERED >>> ", filtered);
+    const recent = [restaurant, ...filtered];
+    localStorage.setItem("recentSearchRestaurant", JSON.stringify(recent));
+  }
+};

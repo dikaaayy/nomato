@@ -39,13 +39,12 @@ export const getServerSideProps = async (context: any) => {
 
 export default function Category({ category, user }: any) {
   const { categoryName, restaurant: restaurants } = category;
-  // console.log(restaurants[0]);
   return (
     <>
       <Header title={categoryName} />
       <CategoryTopBar />
       <CategoryHero name={categoryName} />
-      <div className="flex flex-col lg:grid lg:grid-cols-5 lg:gap-2">
+      <div className="flex flex-col lg:grid lg:grid-cols-5 lg:gap-2 gap-y-3 m-4">
         {restaurants.map((restaurant: any, i: any, row: any) => {
           if (i + 1 === row.length) {
             return <CategoryCard key={i} restaurant={restaurant} isLast={true} />;
