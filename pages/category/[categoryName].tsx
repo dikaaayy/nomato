@@ -34,7 +34,7 @@ export const getServerSideProps = async (context: any) => {
       notFound: true,
     };
   }
-  return { props: { user: session?.user, category: JSON.parse(JSON.stringify(category)) } };
+  return { props: { user: session?.user || null, category: JSON.parse(JSON.stringify(category)) } };
 };
 
 export default function Category({ category, user }: any) {

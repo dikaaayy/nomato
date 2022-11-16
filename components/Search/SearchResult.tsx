@@ -11,8 +11,6 @@ export default function SearchResult({ query }: any) {
   const [isFilterOpen, setIsFilterOpen] = useState<boolean>(false);
   const [highestPrice, setHighestPrice] = useState<Number>(0);
 
-  console.log(data);
-
   const fetchData = async () => {
     const res = await (await fetch(`${process.env.NEXT_PUBLIC_API_URL!}/api/getSearch?q=${query}`)).json();
     setData(res);

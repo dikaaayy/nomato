@@ -1,9 +1,11 @@
 import { useRouter } from "next/router";
 import React, { FormEvent, useEffect, useRef, useState } from "react";
 import SearchBar from "../SearchBar";
+import MostSearched from "./MostSearched";
 import RecentSearchQuery from "./RecentSearchQuery";
 import RecentSearchRestaurant from "./RecentSearchRestaurant";
 import SearchResult from "./SearchResult";
+import { decryptLocalStorage, encryptLocalStorage } from "../../lib/logic";
 
 export default function Search() {
   const [recentSearch, setRecentSearch] = useState<any[]>([]);
@@ -12,8 +14,8 @@ export default function Search() {
   const router = useRouter();
 
   useEffect(() => {
-    const query = JSON.parse(localStorage.getItem("recentSearchQuery") || "[]");
-    const restaurant = JSON.parse(localStorage.getItem("recentSearchRestaurant") || "[]");
+    const query = JSON.parse(decryptLocalStorage("recentSearchQuery") || "[]");
+    const restaurant = JSON.parse(decryptLocalStorage("recentSearchRestaurant") || "[]");
     setRecentSearch(query);
     setRecentSearchRestaurant(restaurant);
   }, []);
@@ -28,19 +30,19 @@ export default function Search() {
     if (!recentSearch.some((item: string) => item === searchRef.current?.value!)) {
       const recent = [searchRef.current?.value!, ...recentSearch];
       setRecentSearch(recent);
-      localStorage.setItem("recentSearchQuery", JSON.stringify(recent));
+      localStorage.setItem("recentSearchQuery", encryptLocalStorage(JSON.stringify(recent)));
     } else {
       const filtered = recentSearch.filter((item: string) => item !== searchRef.current?.value!);
       const recent = [searchRef.current?.value!, ...filtered];
       setRecentSearch(recent);
-      localStorage.setItem("recentSearchQuery", JSON.stringify(recent));
+      localStorage.setItem("recentSearchQuery", encryptLocalStorage(JSON.stringify(recent)));
     }
 
     router.push(`/search?q=${searchRef.current?.value!}`, undefined, { shallow: true });
   };
 
   return (
-    <div className="mx-4 pt-8">
+    <div className="mx-4 pt-8 pb-20">
       {!router.query.q && <p className="font-semibold text-2xl">Cari</p>}
       <SearchBar handler={searchSubmitHandler} searchRef={searchRef} />
       {!router.query.q ? (
@@ -57,6 +59,7 @@ export default function Search() {
               <RecentSearchRestaurant data={recentSearchRestaurant} />
             </>
           )}
+          <MostSearched />
         </>
       ) : (
         <SearchResult query={router.query.q} />
