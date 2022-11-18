@@ -3,7 +3,17 @@ import { getMultipleRandom } from "../../lib/logic";
 import { prisma } from "../../lib/prisma";
 
 export default async function handler(req: any, res: NextApiResponse) {
+  if (req.method !== "GET") {
+    res.status(400);
+    res.end();
+    return;
+  }
   const { category } = req.query;
+  if (!category) {
+    res.status(404);
+    res.end();
+    return;
+  }
   try {
     // const data = await prisma.restaurant.findMany({
     //   where: {
