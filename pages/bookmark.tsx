@@ -1,18 +1,20 @@
 import React from "react";
 import Header from "../components/Head/Header";
 import { prisma } from "../lib/prisma";
-import { getSession } from "next-auth/react";
 import Navbar from "../components/Navbar/Navbar";
 import BookmarkCard from "../components/Bookmark/BookmarkCard";
 import { GetServerSideProps } from "next";
+import { unstable_getServerSession } from "next-auth";
+import { authOptions } from "./api/auth/[...nextauth]";
 
 export const getServerSideProps: GetServerSideProps = async (context: any) => {
-  const session = await getSession(context);
+  const session = await unstable_getServerSession(context.req, context.res, authOptions);
+
   if (!session) {
     return {
       redirect: {
         permanent: false,
-        destination: "/",
+        destination: "/login",
       },
     };
   }
@@ -37,20 +39,23 @@ export const getServerSideProps: GetServerSideProps = async (context: any) => {
       },
     },
   });
-  return { props: { bookmarks: JSON.parse(JSON.stringify(bookmarks?.bookmark)) } };
+  return { props: { user: session.user!, bookmarks: JSON.parse(JSON.stringify(bookmarks?.bookmark)) } };
 };
 
-export default function bookmark({ bookmarks }: any) {
+export default function bookmark({ bookmarks, user }: any) {
   return (
     <>
       <Header title="Bookmark" />
       {/* <CategoryHero name="bookmark" /> */}
-      <div className="mx-4 mt-10 pb-20 grid grid-cols-2 gap-2 xl:grid-cols-4">
-        {bookmarks.map((bookmark: any, i: any) => {
-          return <BookmarkCard key={i} restaurant={bookmark} />;
-        })}
+      <div className="mx-4 mt-10 pb-20">
+        <p className="font-semibold text-2xl mb-3">Restoran Favorit</p>
+        <div className="grid grid-cols-2 gap-2 xl:grid-cols-4">
+          {bookmarks.map((bookmark: any, i: any) => {
+            return <BookmarkCard key={i} restaurant={bookmark} />;
+          })}
+        </div>
       </div>
-      <Navbar />
+      <Navbar user={user} />
     </>
   );
 }

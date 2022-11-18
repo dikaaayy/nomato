@@ -22,12 +22,13 @@ export default function CreateRating({ cancel, restaurant, session }: any) {
     //   commentRef.current!.value = "";
     //   // cancel();
     // });
-    fetch(`${window.location.origin}/api/postReview`, {
+    fetch(`${process.env.NEXT_PUBLIC_API_URL!}/api/postReview`, {
       body: JSON.stringify({
         restaurantId,
         rate: Number(currentRate),
         email: session?.user?.email!,
         comment: commentRef.current!.value,
+        postDate: new Date().toISOString(),
       }),
       headers: {
         "Content-Type": "application/json",
@@ -47,16 +48,16 @@ export default function CreateRating({ cancel, restaurant, session }: any) {
       ]);
       setTimeout(() => {
         cancel();
-        toastRef.current!.show();
+        // toastRef.current!.show();
         setCurrentRate(null);
         commentRef.current!.value = "";
-      }, 1000);
+      }, 900);
     });
   };
   return (
     <Backdrop onClick={cancel}>
       <div
-        className="fixed z-[100] animate-loginFade bg-white h-[55vh] bottom-0 w-screen rounded-t-2xl pt-4"
+        className="fixed z-[30] animate-loginFade bg-white h-[55vh] bottom-0 w-screen rounded-t-2xl pt-4"
         onClick={(e) => {
           e.stopPropagation();
         }}

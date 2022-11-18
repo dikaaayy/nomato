@@ -8,7 +8,7 @@ export default function RestaurantRow({ restaurants, title, search }: any) {
   const router = useRouter();
 
   const fetchData = async () => {
-    const res = await (await fetch(`${window.location.origin}/api/getCategories?category=${search}`)).json();
+    const res = await (await fetch(`${process.env.NEXT_PUBLIC_API_URL!}/api/getCategories?category=${search}`)).json();
     setData(res);
   };
 
@@ -21,7 +21,7 @@ export default function RestaurantRow({ restaurants, title, search }: any) {
   return data.length == 0 ? (
     <SkeletonCardRow />
   ) : (
-    <div className="mx-5 mb-5 text-darkGray">
+    <div className="mb-5 text-darkGray">
       <div className="flex justify-between mb-2 items-center">
         <p className="font-semibold text-darkGray text-base">{title}</p>
         <p

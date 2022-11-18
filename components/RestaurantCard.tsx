@@ -1,6 +1,6 @@
 import Image from "next/image";
-import React, { FormEvent, useEffect, useState } from "react";
-import { openTimeLogic, priceLogic, ratingCounter, truncate } from "../lib/logic";
+import React, { FormEvent, useState } from "react";
+import { openTimeLogic, priceLogic, ratingCounter, recentRestaurantHandler, truncate } from "../lib/logic";
 import Link from "next/link";
 import { useSession } from "next-auth/react";
 
@@ -39,7 +39,12 @@ export default function RestaurantCard({ restaurant }: any) {
 
   return (
     <Link href={`/restos/${routeName}`}>
-      <a className="border-[1px] rounded-xl shadow-lg hover:bg-[#f6f6f6] transition">
+      <a
+        className="border-[1px] rounded-xl shadow-lg hover:bg-[#f6f6f6] transition"
+        onClick={() => {
+          recentRestaurantHandler(restaurant);
+        }}
+      >
         <div className="bg-cover w-[274px] h-[190px] relative rounded-t-xl" style={{ backgroundImage: `url(${featureImage[0]?.URL})` }}>
           {/* <Image src={featureImage[0]?.URL} alt={name} layout="fill" objectFit={"fill"} /> */}
           <button className="p-1 flex items-center justify-center bg-white rounded-full right-4 top-2 absolute z-20" onClick={bookmarkHandler}>

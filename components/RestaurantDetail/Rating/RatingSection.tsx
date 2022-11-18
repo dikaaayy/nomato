@@ -4,12 +4,15 @@ import CreateRating from "./CreateRating";
 import RatingCard from "./RatingCard";
 import { useSession } from "next-auth/react";
 import LoginPage from "../../login/LoginPage";
+import Verify from "../../verify/Verify";
+import { useRouter } from "next/router";
 
-export default function RatingSection({ divRef, restaurant }: any) {
+export default function RatingSection({ user, divRef, restaurant }: any) {
   const [isOpen, setIsOpen] = useState<boolean>(false);
-  const [isLoginOpen, setIsLoginOpen] = useState<boolean>(false);
+  const [isVerifyOpen, setVerifyIsOpen] = useState<boolean>(false);
   const { reviews } = useContext(ReviewContext);
   const { data: session } = useSession();
+  const router = useRouter();
   return (
     <div className="mx-5 mb-96 text-darkGray" ref={divRef}>
       <div className="flex justify-between items-center">
@@ -18,9 +21,13 @@ export default function RatingSection({ divRef, restaurant }: any) {
       </div>
       <p className="text-sm my-3">RECENT REVIEWS</p>
       <div className="flex space-x-4 overflow-x-scroll">
-        {reviews.map((item: any, i: number) => {
-          return <RatingCard key={i} item={item} />;
-        })}
+        {reviews
+          .sort((a: any, b: any) => {
+            return new Date(a.postDate).valueOf() - new Date(b.postDate).valueOf();
+          })
+          .map((item: any, i: number) => {
+            return <RatingCard key={i} item={item} />;
+          })}
       </div>
       {isOpen && (
         <>
@@ -33,21 +40,29 @@ export default function RatingSection({ divRef, restaurant }: any) {
           />
         </>
       )}
-      {isLoginOpen && (
-        <LoginPage
-          closeLogin={() => {
-            setIsLoginOpen(false);
-          }}
-        />
-      )}
       <p
         onClick={() => {
-          session ? setIsOpen(true) : setIsLoginOpen(true);
+          if (!user) {
+            router.push("/login");
+          } else {
+            if (user.name) {
+              setIsOpen(true);
+            } else {
+              setVerifyIsOpen(true);
+            }
+          }
         }}
         className={`text-darkRed cursor-pointer text-center border-t-2 mt-10 pt-2`}
       >
         Write a review
       </p>
+      {isVerifyOpen && (
+        <Verify
+          close={() => {
+            setVerifyIsOpen(false);
+          }}
+        />
+      )}
     </div>
   );
 }

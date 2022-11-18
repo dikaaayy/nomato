@@ -15,7 +15,7 @@ export default function Topbar() {
   //   getLocation(getCoordinate());
   // }, []);
   return (
-    <div className="flex justify-between items-center pt-4 px-4">
+    <div className="flex justify-between items-center pt-4">
       <div className="flex gap-x-2 items-center">
         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" className="w-7 h-7 text-[#E63131]">
           <path
