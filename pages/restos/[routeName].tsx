@@ -66,7 +66,13 @@ export default function Restaurant({ restaurant, user }: any) {
       <>
         <Header title={name} />
         <div className="mx-5 text-darkGray">
-          <TopButtons user={user} restaurant={restaurant} />
+          <TopButtons
+            onClick={() => {
+              setIsGalleryOpen(true);
+            }}
+            user={user}
+            restaurant={restaurant}
+          />
           <RestaurantHeader restaurant={restaurant} />
           <div className="flex justify-between">
             <button

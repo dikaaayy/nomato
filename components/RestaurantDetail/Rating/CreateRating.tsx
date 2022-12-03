@@ -102,7 +102,7 @@ export default function CreateRating({ cancel, restaurant, user: session }: any)
               })}
             </div>
           </div>
-          <RatingForm commentRef={commentRef} setImageUpload={setImageUpload} submitRating={submitRating} session={session} />
+          <RatingForm commentRef={commentRef} imageUpload={imageUpload} setImageUpload={setImageUpload} submitRating={submitRating} session={session} />
           {/* <RatingForm commentRef={commentRef} submitRating={submitRating} session={session} /> */}
         </div>
         <Toast message={"Review posted!"} ref={toastRef} />
