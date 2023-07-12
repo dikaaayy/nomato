@@ -1,61 +1,11 @@
 import Image from "next/image";
 import Link from "next/link";
 import { useSession } from "next-auth/react";
-import { useEffect, useState } from "react";
+import useArea from "../lib/useArea";
+import SkeletonWrapper from "./Skeleton/SkeletonWrapper";
 export default function Topbar() {
   const { data: session } = useSession();
-
-  const [latitude, setLatitude] = useState<number | null>(null);
-  const [longitude, setLongitude] = useState<number | null>(null);
-  const [area, setArea] = useState<string>("");
-
-  useEffect(() => {
-    const fetchLocation = async (): Promise<void> => {
-      try {
-        const position = await getCurrentPosition();
-        setLatitude(position.coords.latitude);
-        setLongitude(position.coords.longitude);
-      } catch (e) {
-        console.log(e);
-      }
-    };
-
-    const getCurrentPosition = (): Promise<GeolocationPosition> => {
-      return new Promise((resolve, reject) => {
-        navigator.geolocation.getCurrentPosition(resolve, reject);
-      });
-    };
-
-    fetchLocation();
-  }, []);
-
-  useEffect(() => {
-    const fetchCity = async (): Promise<void> => {
-      try {
-        if (latitude && longitude) {
-          const response = await fetch(`https://maps.googleapis.com/maps/api/geocode/json?latlng=${latitude},${longitude}&key=${process.env.NEXT_PUBLIC_MAPS_API}`);
-          const data = await response.json();
-
-          if (data.results.length > 0) {
-            const addressComponents: any[] = data.results[0].address_components;
-
-            for (let i = 0; i < addressComponents.length; i++) {
-              const types: string[] = addressComponents[i].types;
-
-              if (types.includes("administrative_area_level_4" || "administrative_area_level_3" || "administrative_area_level_2")) {
-                setArea(addressComponents[i].long_name);
-                break;
-              }
-            }
-          }
-        }
-      } catch (e) {
-        console.log(e);
-      }
-    };
-
-    fetchCity();
-  }, [latitude, longitude]);
+  const area = useArea();
 
   return (
     <div className="flex justify-between items-center pt-4">
@@ -67,7 +17,7 @@ export default function Topbar() {
             clipRule="evenodd"
           />
         </svg>
-        <p className="text-black font-semibold">{area}</p>
+        {area ? <p className="text-black font-semibold">{area}</p> : <SkeletonWrapper type={"text"} />}
       </div>
       {session ? (
         <Image src={session?.user?.image!} width="30" height={"30"} alt="logo putih" objectFit="cover" className="rounded-full" />
