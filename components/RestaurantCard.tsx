@@ -65,9 +65,9 @@ export default function RestaurantCard({ user: session, restaurant }: any) {
               )}
             </button>
           )}
-          <div className="flex px-[0.5rem] py-1 font-semibold items-center justify-center text-xs bg-white opacity-75 absolute bottom-2 right-3 rounded-full">
+          {/* <div className="flex px-[0.5rem] py-1 font-semibold items-center justify-center text-xs bg-white opacity-75 absolute bottom-2 right-3 rounded-full">
             <p>2.0 Km</p>
-          </div>
+          </div> */}
         </div>
         <div className="px-4 py-2 space-y-1">
           <div className="flex justify-between items-center mb-1">
