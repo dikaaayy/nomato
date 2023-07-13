@@ -1,9 +1,10 @@
-import React, { useEffect, useState } from "react";
+/* eslint-disable react-hooks/exhaustive-deps */
+import React, { useContext, useEffect, useState } from "react";
+import { CoordinateContext } from "../pages/_app";
 
 export default function useArea() {
-  const [latitude, setLatitude] = useState<number | null>(null);
-  const [longitude, setLongitude] = useState<number | null>(null);
   const [area, setArea] = useState<string>("");
+  const { longitude, setLongitude, latitude, setLatitude } = useContext(CoordinateContext);
 
   useEffect(() => {
     const fetchLocation = async (): Promise<void> => {
@@ -35,7 +36,6 @@ export default function useArea() {
         if (latitude && longitude) {
           const response = await fetch(`https://maps.googleapis.com/maps/api/geocode/json?latlng=${latitude},${longitude}&key=${process.env.NEXT_PUBLIC_MAPS_API}`);
           const data = await response.json();
-          console.log(data.results);
 
           if (data.results.length > 0) {
             const addressComponents: any[] = data.results[0].address_components;

@@ -12,6 +12,7 @@ import Image from "next/image";
 import MainPageSearch from "../components/Search/MainPageSearch";
 import { getMultipleRandom } from "../lib/logic";
 import { Restaurant } from "@prisma/client";
+import useGetDistance from "../lib/UseGetDistance";
 
 export const getServerSideProps: GetServerSideProps = async ({ req, res }) => {
   const session = await unstable_getServerSession(req, res, authOptions);
@@ -58,8 +59,6 @@ export default function Home({ restoran, user }: any) {
   const [searchData, setSearchData] = useState<Restaurant[]>([]);
   // console.log(searchData);
   const [isLoading, setIsLoading] = useState<boolean>(false);
-
-  // console.log(restoran[0]);
 
   useEffect(() => {
     if (search === "") {
